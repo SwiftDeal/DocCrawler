@@ -19,6 +19,15 @@ namespace Shared {
          */
         protected $_user;
 
+        public function seo($params = array()) {
+            $seo = Registry::get("seo");
+            foreach ($params as $key => $value) {
+                $property = "set" . ucfirst($key);
+                $seo->$property($value);
+            }
+            $params["view"]->set("seo", $seo);
+        }
+
         /**
          * @protected
          */
@@ -35,6 +44,17 @@ namespace Shared {
             $user = $this->getUser();
             if (!$user) {
                 header("Location: /login.html");
+                exit();
+            }
+        }
+
+        /**
+         * @protected
+         */
+        public function _session() {
+            $user = $this->getUser();
+            if ($user) {
+                header("Location: /admin");
                 exit();
             }
         }
