@@ -6,22 +6,13 @@
  * @author Hemant Mann
  */
 class Location extends Shared\Model {
-	 /**
-     * @column
-     * @readwrite
-     * @type text
-     * @length 65
-     * @index
-     */
-    protected $_property;
-
     /**
      * @column
      * @readwrite
      * @type integer
      * @index
      */
-    protected $_property_id;
+    protected $_doctor_id;
 
     /**
      * @column
