@@ -163,6 +163,32 @@ $(document).ready(function () {
 
 });
 
+$(document).ready(function() {
+    $('#bot-form').on('submit', function(e) {
+        e.preventDefault();
+        
+        var loading = $('#bot-results-fetching');
+        loading.removeClass('hide');
+
+        request.read({
+            action: window.location.pathname,
+            data: $(this).serialize(),
+            callback: function (data) {
+                loading.addClass('hide');
+                $('#bot-results-done').removeClass('hide');
+                var el = $('#bot-results-row');
+                el.html('');
+                if (data.total) {
+                    var doc = data.doctors;
+                    for (var i = 0; i < data.total; ++i) {
+                        el.append('<tr><td>'+ (i + 1)+'</td><td>'+ doc[i].name +'</td><td>' + doc[i].gender + '</td><td>' + doc[i].address +'</td><td>' + doc[i].zip + '</td></tr>');
+                    }
+                }
+            }
+        });
+    });
+});
+
 function toArray(object) {
     var array = $.map(object, function (value, index) {
         return [value];

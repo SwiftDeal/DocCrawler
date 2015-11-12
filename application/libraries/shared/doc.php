@@ -29,6 +29,8 @@ class Doc {
     protected static $_count = 0;
     
     public function __construct() {
+        self::$_results = array();
+        self::$_count = 0;
     }
     
     protected function filterResult($result) {
@@ -86,7 +88,9 @@ class Doc {
             
             if ($body) {
                 $result = json_decode($this->filterResult($body));
-                $results[] = $result->doctor_locations;
+                foreach ($result->doctor_locations as $doc) {
+                    $results[] = $doc;
+                }
             } 
             else {
                 break;
@@ -115,7 +119,7 @@ class Doc {
             }
             
             // Check if the doctor saved in our database
-            if ($zocdoc->doctor->id) {
+            if (isset($zocdoc->doctor->id)) {
                 $doctor = \Doctor::first(array(
                     "zocdoc_id = ?" => $zocdoc->doctor->id
                 ));
@@ -200,10 +204,19 @@ class Doc {
     /**
      * Fetches all the doctors for a given zipcode and saves the new ones in db
      */
-    public function manual($zip) {
-        foreach ($this->_specialities as $key => $sp) {
-            $response = $this->processList($zip, $sp);
-            $this->save($response, "saveData");
+    public function manual($zip, $env = "production") {
+        switch ($env) {
+            case 'production':
+                foreach ($this->_specialities as $key => $sp) {
+                    $response = $this->processList($zip, $sp);
+                    $this->save($response, "saveData");
+                }
+                break;
+            
+            case 'testing':
+                $response = $this->processList($zip, '153');
+                $this->save($response, "saveData");
+                break;
         }
     }
 

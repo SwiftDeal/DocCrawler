@@ -73,7 +73,7 @@ class Doc extends Admin {
 
         if ($action == "fetch") {
             $bot = new Shared\Doc();
-            $bot->manual($zip);
+            $bot->manual($zip, "testing");  // change "testing" to "production" when project is in running phase
             $results = Shared\Doc::newInfo();
 
             $results = ArrayMethods::toObject($results);
@@ -81,7 +81,6 @@ class Doc extends Admin {
             $view->set('total', $results->count);
         } else {
             $view->set('doctors', array());
-            $view->set('total', 0);
         }
     }
     

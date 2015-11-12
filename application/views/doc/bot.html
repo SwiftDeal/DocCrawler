@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row col-lg-12">
         <h1 class="page-header text-center">Bot</h1>
-        <form class="form-inline text-center" role="form" method="get" action="">
+        <form class="form-inline text-center" id="bot-form" role="form" method="get" action="">
             <div class="form-group">
                 <div class="input-group">
                     <label class="sr-only">City</label>
@@ -15,8 +15,11 @@
         <hr>
         <p>Enter any Zipcode to fetch fresh data from zocdoc server and save to our database.</p>
         <div class="panel panel-default">
-            <div class="panel-body">Stats will be shown here: {echo $total. " Fetched"}</div>
-            <table class="table">
+            <button class="btn btn-primary text-center hide" id="bot-results-fetching"><i class="fa fa-spinner fa-spin"></i> Fetching</button>
+            <div class="panel-body">
+                Stats will be shown here
+            </div>
+            <table class="table hide" id="bot-results-done">
                 <thead>
                     <tr>
                         <th>S.No</th>
@@ -26,18 +29,8 @@
                         <th>Zip</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {script $i = 1}
-                    {foreach $doctor in $doctors}
-                    <tr>
-                        <td>{$i}</td>
-                        <td>{$doctor->name}</td>
-                        <td>{$doctor->gender}</td>
-                        <td>{$doctor->address}</td>
-                        <td>{$doctor->zip}</td>
-                    </tr>
-                    {script ++$i}
-                    {/foreach}
+                <tbody id="bot-results-row">
+                    
                 </tbody>
             </table>
         </div>
