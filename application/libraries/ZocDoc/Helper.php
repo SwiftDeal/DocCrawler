@@ -21,14 +21,14 @@ class Helper {
 		return $zip_codes;
 	}
 
-	public static function last() {
+	public static function lastRunCode($code = "") {
 		$file = self::path(). 'last.txt';
-		$content = file_get_contents($file);
-		
-		if ($content) {
-			return $content;
+		if ($code) {
+			file_put_contents($file, $code);
 		} else {
-			return false;
+			$content = file_get_contents($file);
+			return ($content) ? $content : false;	
 		}
 	}
+
 }

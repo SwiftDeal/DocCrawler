@@ -14,6 +14,7 @@ class Doc {
     /**
      * @read
      */
+    
     protected $_specialities = array("345","132","346","105","143","156","98","101","385","130","127","386","106","388","110","114","398","362","107","128","113","104","111","116","157","151","135","117","139","152","100","336","335","120","121","153","137","122","337","108","123","109","155","129","158","387","382","408","126","142","373");
     
     public function __construct() {
@@ -25,7 +26,9 @@ class Doc {
     }
     
     protected function executeRequest($key, $url) {
-        $urls = array("$key" => $url);
+        $urls = array(
+            "$key" => $url
+        );
         $bot = new Bot($urls);
         $bot->execute();
         $documents = $bot->getDocuments();
@@ -86,17 +89,26 @@ class Doc {
             
             // check if the practice listed in our database
             if (isset($zocdoc->practice->id)) {
-                $practice = \Practice::first(array("zocdoc_id = ?" => $zocdoc->practice->id));
+                $practice = \Practice::first(array(
+                    "zocdoc_id = ?" => $zocdoc->practice->id
+                ));
                 if (!$practice) {
-                    $practice = new \Practice(array("zocdoc_id" => $zocdoc->practice->id, "name" => $zocdoc->practice->name));
+                    $practice = new \Practice(array(
+                        "zocdoc_id" => $zocdoc->practice->id,
+                        "name" => $zocdoc->practice->name
+                    ));
                     $practice->save();
                 }
             }
             
             // Check if the doctor saved in our database
-            $doctor = \Doctor::first(array("zocdoc_id = ?" => $zocdoc->doctor->id));
+            $doctor = \Doctor::first(array(
+                "zocdoc_id = ?" => $zocdoc->doctor->id
+            ));
             if ($doctor) {
-                $location = \DocSearch::first(array("doctor_id = ?" => $doctor->id));
+                $location = \DocSearch::first(array(
+                    "doctor_id = ?" => $doctor->id
+                ));
                 if ($location) {
                     if ($location->latitude != $zocdoc->location->lat || $location->longitude != $zocdoc->location->lon) {
                         $location = null;
@@ -104,15 +116,33 @@ class Doc {
                 }
             } 
             else {
-                $doctor = new \Doctor(array("name" => $zocdoc->doctor->name, "gender" => $zocdoc->doctor->gender, "suffix" => $zocdoc->doctor->suffix, "speciality_id" => $zocdoc->doctor->specialty->id, "zocdoc_id" => $zocdoc->doctor->id, "practice_id" => ($practice->id) ? $practice->id : ""));
+                $doctor = new \Doctor(array(
+                    "name" => $zocdoc->doctor->name,
+                    "gender" => $zocdoc->doctor->gender,
+                    "suffix" => $zocdoc->doctor->suffix,
+                    "speciality_id" => $zocdoc->doctor->specialty->id,
+                    "zocdoc_id" => $zocdoc->doctor->id,
+                    "practice_id" => @$practice->id
+                ));
                 $doctor->save();
             }
             
             if (!$location) {
+                
                 // a new location for the doctor
                 $addr = explode(",", $zocdoc->location->address_line_2);
+                $addr[1] = trim($addr[1]);
                 $codes = explode(" ", $addr[1]);
-                $location = new \DocSearch(array("doctor_id" => $doctor->id, "speciality_id" => $doctor->speciality_id, "address" => $zocdoc->location->address_line_1, "city" => $addr[0], "state_code" => $code[0], "zip_code" => (int) $code[1], "latitude" => $zocdoc->location->lat, "longitude" => $zocdoc->location->lon));
+                $location = new \DocSearch(array(
+                    "doctor_id" => $doctor->id,
+                    "speciality_id" => $doctor->speciality_id,
+                    "address" => $zocdoc->location->address_line_1,
+                    "city" => $addr[0],
+                    "state_code" => $codes[0],
+                    "zip_code" => (int) $codes[1],
+                    "latitude" => $zocdoc->location->lat,
+                    "longitude" => $zocdoc->location->lon
+                ));
                 $location->save();
             }
         }
@@ -121,7 +151,7 @@ class Doc {
     public function fetch() {
         $codes = Helper::zip_codes();
         
-        $last = Helper::last();
+        $last = Helper::lastRunCode();
         foreach ($codes as $key => $zip) {
             if ($last) {
                 if ($last != $zip) {
@@ -134,9 +164,9 @@ class Doc {
             
             foreach ($this->_specialities as $key => $sp) {
                 $response = $this->processList($zip, $sp);
-                $this->save();                
+                $this->save($response);
             }
-            file_put_contents($name, $last);
+            Helper::lastRunCode($last);
         }
     }
 }
