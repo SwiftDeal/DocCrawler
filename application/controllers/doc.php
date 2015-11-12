@@ -75,8 +75,13 @@ class Doc extends Admin {
             $bot = new Shared\Doc();
             $bot->manual($zip);
             $results = Shared\Doc::newInfo();
-            $view->set('doctors', $results['doctors']);
-            $view->set('total', $results['count']);
+
+            $results = ArrayMethods::toObject($results);
+            $view->set('doctors', $results->doctors);
+            $view->set('total', $results->count);
+        } else {
+            $view->set('doctors', array());
+            $view->set('total', 0);
         }
     }
     

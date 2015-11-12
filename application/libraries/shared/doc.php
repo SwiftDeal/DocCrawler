@@ -71,7 +71,7 @@ class Doc {
         $results = array();
         $response = array();
         
-        for ($i = 0; $i <= 90; $i+= 10) {
+        for ($i = 0; $i <= 90; $i += 10) {
             $body = $this->executeRequest('search', $this->searchUrl($zip, $cat, $i));
             
             $search = json_decode($this->filterResult($body));
@@ -85,7 +85,8 @@ class Doc {
             }
             
             if ($body) {
-                $results = json_decode($this->filterResult($body))->doctor_locations;
+                $result = json_decode($this->filterResult($body));
+                $results[] = $result->doctor_locations;
             } 
             else {
                 break;
@@ -114,50 +115,52 @@ class Doc {
             }
             
             // Check if the doctor saved in our database
-            $doctor = \Doctor::first(array(
-                "zocdoc_id = ?" => $zocdoc->doctor->id
-            ));
-            if ($doctor) {
-                $location = \DocSearch::first(array(
-                    "doctor_id = ?" => $doctor->id
+            if ($zocdoc->doctor->id) {
+                $doctor = \Doctor::first(array(
+                    "zocdoc_id = ?" => $zocdoc->doctor->id
                 ));
-                if ($location) {
-                    if ($location->latitude != $zocdoc->location->lat || $location->longitude != $zocdoc->location->lon) {
-                        $location = null;
-                        $newDoc = true;
+                if ($doctor) {
+                    $location = \DocSearch::first(array(
+                        "doctor_id = ?" => $doctor->id
+                    ));
+                    if ($location) {
+                        if ($location->latitude != $zocdoc->location->lat || $location->longitude != $zocdoc->location->lon) {
+                            $location = null;
+                            $newDoc = true;
+                        }
                     }
+                } 
+                else {
+                    $doctor = new \Doctor(array(
+                        "name" => $zocdoc->doctor->name,
+                        "gender" => $zocdoc->doctor->gender,
+                        "suffix" => $zocdoc->doctor->suffix,
+                        "speciality_id" => $zocdoc->doctor->specialty->id,
+                        "zocdoc_id" => $zocdoc->doctor->id,
+                        "practice_id" => @$practice->id
+                    ));
+                    $doctor->save();
+                    $newDoc = true;
                 }
-            } 
-            else {
-                $doctor = new \Doctor(array(
-                    "name" => $zocdoc->doctor->name,
-                    "gender" => $zocdoc->doctor->gender,
-                    "suffix" => $zocdoc->doctor->suffix,
-                    "speciality_id" => $zocdoc->doctor->specialty->id,
-                    "zocdoc_id" => $zocdoc->doctor->id,
-                    "practice_id" => @$practice->id
-                ));
-                $doctor->save();
-                $newDoc = true;
-            }
-            
-            if (!$location) {
                 
-                // a new location for the doctor
-                $addr = explode(",", $zocdoc->location->address_line_2);
-                $addr[1] = trim($addr[1]);
-                $codes = explode(" ", $addr[1]);
-                $location = new \DocSearch(array(
-                    "doctor_id" => $doctor->id,
-                    "speciality_id" => $doctor->speciality_id,
-                    "address" => $zocdoc->location->address_line_1,
-                    "city" => $addr[0],
-                    "state_code" => $codes[0],
-                    "zip_code" => (int) $codes[1],
-                    "latitude" => $zocdoc->location->lat,
-                    "longitude" => $zocdoc->location->lon
-                ));
-                $location->save();
+                if (!$location) {
+                    
+                    // a new location for the doctor
+                    $addr = explode(",", $zocdoc->location->address_line_2);
+                    $addr[1] = trim($addr[1]);
+                    $codes = explode(" ", $addr[1]);
+                    $location = new \DocSearch(array(
+                        "doctor_id" => $doctor->id,
+                        "speciality_id" => $doctor->speciality_id,
+                        "address" => $zocdoc->location->address_line_1,
+                        "city" => $addr[0],
+                        "state_code" => $codes[0],
+                        "zip_code" => (int) $codes[1],
+                        "latitude" => $zocdoc->location->lat,
+                        "longitude" => $zocdoc->location->lon
+                    ));
+                    $location->save();
+                }
             }
 
             if ($newDoc && $saveData) {

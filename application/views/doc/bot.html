@@ -6,16 +6,40 @@
                 <div class="input-group">
                     <label class="sr-only">City</label>
                     <span class="add-on input-group-addon"><i class="fa fa-map-marker fa-fw"></i> Zipcode</span>
-                    <input type="number" style="width: 200px" name="date" class="form-control" placeholder="Enter Zipcode" />
+                    <input type="number" style="width: 200px" name="zipcode" class="form-control" placeholder="Enter Zipcode" />
                 </div>
             </div>
-            <input type="hidden" name="action" value="findUser">
+            <input type="hidden" name="action" value="fetch">
             <button type="submit" class="btn btn-primary">Fetch</button>
         </form>
         <hr>
         <p>Enter any Zipcode to fetch fresh data from zocdoc server and save to our database.</p>
         <div class="panel panel-default">
-            <div class="panel-body">Stats will be shown here</div>
+            <div class="panel-body">Stats will be shown here: {echo $total. " Fetched"}</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Address</th>
+                        <th>Zip</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {script $i = 1}
+                    {foreach $doctor in $doctors}
+                    <tr>
+                        <td>{$i}</td>
+                        <td>{$doctor->name}</td>
+                        <td>{$doctor->gender}</td>
+                        <td>{$doctor->address}</td>
+                        <td>{$doctor->zip}</td>
+                    </tr>
+                    {script ++$i}
+                    {/foreach}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
