@@ -13,21 +13,10 @@ class User extends Shared\Model {
      * @type text
      * @length 100
      * 
-     * @validate required, alpha, min(3), max(32)
-     * @label first name
+     * @validate required, min(3), max(32)
+     * @label name
      */
-    protected $_first;
-
-    /**
-     * @column
-     * @readwrite
-     * @type text
-     * @length 100
-     * 
-     * @validate required, alpha, min(3), max(32)
-     * @label last name
-     */
-    protected $_last;
+    protected $_name;
 
     /**
      * @column
@@ -40,6 +29,17 @@ class User extends Shared\Model {
      * @label email address
      */
     protected $_email;
+
+    /**
+     * @column
+     * @readwrite
+     * @type text
+     * @length 15
+     * 
+     * @validate required, alpha, min(3), max(32)
+     * @label phone
+     */
+    protected $_phone;
 
     /**
      * @column

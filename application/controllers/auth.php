@@ -30,6 +30,11 @@ class Auth extends Controller {
             ));
             if ($user) {
                 $this->setUser($user);
+                if ($this->user->admin) {
+                    self::redirect("/admin");
+                } else {
+                    $view->set("message", "User not admin");
+                }
             } else {
                 $view->set("message", "User not exist or blocked");
             }
