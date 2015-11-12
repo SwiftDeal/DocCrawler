@@ -49,4 +49,12 @@ class Doc extends Admin {
         $view->set("limit", $limit);
     }
 
+    /**
+     * @before _secure, _admin, changeLayout
+     */
+    public function bot() {
+        $this->seo(array("title" => "Bot", "view" => $this->getLayoutView()));
+        $view = $this->getActionView();
+    }
+
 }

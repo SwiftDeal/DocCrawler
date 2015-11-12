@@ -1,0 +1,21 @@
+<div id="page-wrapper">
+    <div class="row col-lg-12">
+        <h1 class="page-header text-center">Bot</h1>
+        <form class="form-inline text-center" role="form" method="get" action="">
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="sr-only">City</label>
+                    <span class="add-on input-group-addon"><i class="fa fa-map-marker fa-fw"></i> Zipcode</span>
+                    <input type="number" style="width: 200px" name="date" class="form-control" placeholder="Enter Zipcode" />
+                </div>
+            </div>
+            <input type="hidden" name="action" value="findUser">
+            <button type="submit" class="btn btn-primary">Fetch</button>
+        </form>
+        <hr>
+        <p>Enter any Zipcode to fetch fresh data from zocdoc server and save to our database.</p>
+        <div class="panel panel-default">
+            <div class="panel-body">Stats will be shown here</div>
+        </div>
+    </div>
+</div>
