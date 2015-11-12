@@ -98,7 +98,7 @@ class Doc {
             if ($doctor) {
                 $location = \DocSearch::first(array("doctor_id = ?" => $doctor->id));
                 if ($location) {
-                    if ($location->latitude != $zocdoc->location->lat && $location->longitude != $zocdoc->location->lon) {
+                    if ($location->latitude != $zocdoc->location->lat || $location->longitude != $zocdoc->location->lon) {
                         $location = null;
                     }
                 }
@@ -111,7 +111,8 @@ class Doc {
             if (!$location) {
                 // a new location for the doctor
                 $addr = explode(",", $zocdoc->location->address_line_2);
-                $location = new \DocSearch(array("doctor_id" => $doctor->id, "speciality_id" => $doctor->speciality_id, "street" => $zocdoc->location->address_line_1, "area" => $addr[0], "city" => $addr[1], "latitude" => $zocdoc->location->lat, "longitude" => $zocdoc->location->lon));
+                $codes = explode(" ", $addr[1]);
+                $location = new \DocSearch(array("doctor_id" => $doctor->id, "speciality_id" => $doctor->speciality_id, "address" => $zocdoc->location->address_line_1, "city" => $addr[0], "state_code" => $code[0], "zip_code" => (int) $code[1], "latitude" => $zocdoc->location->lat, "longitude" => $zocdoc->location->lon));
                 $location->save();
             }
         }

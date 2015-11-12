@@ -28,15 +28,7 @@ class DocSearch extends Shared\Model {
      * @type text
      * @length 255
      */
-    protected $_street;
-
-    /**
-     * @column
-     * @readwrite
-     * @type text
-     * @length 255
-     */
-    protected $_area;
+    protected $_address;
 
     /**
      * @column
@@ -45,6 +37,27 @@ class DocSearch extends Shared\Model {
      * @length 255
      */
     protected $_city;
+
+    /**
+     * @column
+     * @readwrite
+     * @type text
+     * @length 2
+     * @index
+     *
+     * @label State Code (it is of two characters, eg: NY|CA)
+     */
+    protected $_state_code;
+
+    /**
+     * @column
+     * @readwrite
+     * @type integer
+     * @index
+     *
+     * @label Zip code (it is of 5 digits eg: 10007)
+     */
+    protected $_zip_code;
 
     /**
      * @column
