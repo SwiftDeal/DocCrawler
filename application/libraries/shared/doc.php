@@ -14,7 +14,7 @@ class Doc {
     /**
      * @read
      */
-    protected $_specialities = array("345", "132", "346", "105", "143", "156", "98", "101", "385", "130", "127", "386", "106", "387", "110", "114", "398", "362", "373", "107", "128", "113", "104", "110", "116", "157", "151", "135", "117", "139", "152", "100", "336", "335", "119", "121", "153", "137", "122", "337", "108", "123", "109", "155", "129", "158", "387", "382", "408", "126", "142");
+    protected $_specialities = array("345","132","346","105","143","156","98","101","385","130","127","386","106","388","110","114","398","362","107","128","113","104","111","116","157","151","135","117","139","152","100","336","335","120","121","153","137","122","337","108","123","109","155","129","158","387","382","408","126","142","373");
     
     public function __construct() {
     }
@@ -100,10 +100,6 @@ class Doc {
                 if ($location) {
                     if ($location->latitude != $zocdoc->location->lat && $location->longitude != $zocdoc->location->lon) {
                         $location = null;
-                        
-                        // Means doctor has more than one location
-                        
-                        
                     }
                 }
             } 
@@ -113,7 +109,6 @@ class Doc {
             }
             
             if (!$location) {
-                
                 // a new location for the doctor
                 $addr = explode(",", $zocdoc->location->address_line_2);
                 $location = new \Location(array("doctor_id" => $doctor->id, "street" => $zocdoc->location->address_line_1, "area" => $addr[0], "city" => $addr[1], "latitude" => $zocdoc->location->lat, "longitude" => $zocdoc->location->lon,));
@@ -137,11 +132,8 @@ class Doc {
             }
             
             foreach ($this->_specialities as $key => $sp) {
-                
-                // $response = $this->processList($zip, $sp);
-                // $this->save();
-                
-                
+                $response = $this->processList($zip, $sp);
+                $this->save();                
             }
             file_put_contents($name, $last);
         }
