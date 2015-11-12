@@ -81,6 +81,7 @@ class Doc extends Admin {
     }
     
     public function fetch() {
+        $this->JSONview();
         $view = $this->getActionView();
         $speciality_id = RequestMethods::get("speciality", 153);
         $location = RequestMethods::get("location", "New York");
