@@ -1,13 +1,10 @@
+/*
 $(document).ready(function() { 
 
-
-
-	/* google maps -----------------------------------------------------*/
     google.maps.event.addDomListener(window, 'load', initialize);
 
     function initialize() {
 
-        /* position Amsterdam */
         var latlng = new google.maps.LatLng(52.3731, 4.8922);
 
         var mapOptions = {
@@ -26,5 +23,17 @@ $(document).ready(function() {
         marker.setMap(map);
 
     };
-    /* end google maps -----------------------------------------------------*/
 });
+*/
+
+(function (window, $) {
+    var $mapster = $('#map-canvas').mapster(Mapster.MAP_OPTIONS);
+    
+    $mapster.mapster('addMarker', {
+       lat: 37.791350,
+       lng: -122.435883,
+       content: 'I am here'
+    });
+    
+
+}(window, jQuery));
