@@ -70,10 +70,11 @@ class Doc extends Admin {
 
         $zip = RequestMethods::get("zipcode");
         $action = RequestMethods::get("action");
+        $speciality = RequestMethods::get("speciality", 153);
 
         if ($action == "fetch") {
             $bot = new Shared\Doc();
-            $bot->manual($zip, "testing");  // change "testing" to "production" when project is in running phase
+            $bot->manual(array("zip" => $zip, "speciality" => $speciality), "testing");  // change "testing" to "production" when project is in running phase
             $results = Shared\Doc::newInfo();
 
             $results = ArrayMethods::toObject($results);

@@ -204,17 +204,17 @@ class Doc {
     /**
      * Fetches all the doctors for a given zipcode and saves the new ones in db
      */
-    public function manual($zip, $env = "production") {
+    public function manual($arr, $env = "production") {
         switch ($env) {
             case 'production':
                 foreach ($this->_specialities as $key => $sp) {
-                    $response = $this->processList($zip, $sp);
+                    $response = $this->processList($arr["zip"], $sp);
                     $this->save($response, "saveData");
                 }
                 break;
             
             case 'testing':
-                $response = $this->processList($zip, '153');
+                $response = $this->processList($arr["zip"], $arr["speciality"]);
                 $this->save($response, "saveData");
                 break;
         }

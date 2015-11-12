@@ -8,6 +8,13 @@
                     <span class="add-on input-group-addon"><i class="fa fa-map-marker fa-fw"></i> Zipcode</span>
                     <input type="number" style="width: 200px" name="zipcode" class="form-control" placeholder="Enter Zipcode" />
                 </div>
+                <div class="input-group">
+                    <label class="sr-only">Speciality</label>
+                    <span class="add-on input-group-addon"><i class="fa fa-user-md fa-fw"></i> Speciality</span>
+                    <select name="speciality" class="form-control" required="">
+                        {include layouts/specialities.html}
+                    </select>
+                </div>
             </div>
             <input type="hidden" name="action" value="fetch">
             <button type="submit" class="btn btn-primary">Fetch</button>
