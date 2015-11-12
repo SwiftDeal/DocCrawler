@@ -16,7 +16,7 @@ class Helper {
 	}
 
 	public static function zip_codes() {
-		$file = self::path().'codes.php';
+		$file = self::path().'major-codes.php';
 		require_once($file);
 		return $zip_codes;
 	}

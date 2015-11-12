@@ -67,6 +67,17 @@ class Doc extends Admin {
             "view" => $this->getLayoutView()
         ));
         $view = $this->getActionView();
+
+        $zip = RequestMethods::get("zipcode");
+        $action = RequestMethods::get("action");
+
+        if ($action == "fetch") {
+            $bot = new Shared\Doc();
+            $bot->manual($zip);
+            $results = Shared\Doc::newInfo();
+            $view->set('doctors', $results['doctors']);
+            $view->set('total', $results['count']);
+        }
     }
     
     public function fetch() {

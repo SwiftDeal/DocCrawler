@@ -14,8 +14,19 @@ class Doc {
     /**
      * @read
      */
-    
     protected $_specialities = array("345","132","346","105","143","156","98","101","385","130","127","386","106","388","110","114","398","362","107","128","113","104","111","116","157","151","135","117","139","152","100","336","335","120","121","153","137","122","337","108","123","109","155","129","158","387","382","408","126","142","373");
+
+    /**
+     * Array of new Doctors
+     * @readwrite
+     */
+    protected static $_results = array();
+
+    /**
+     * @readwrite
+     * Stores the count of new Doctors fetched. Basically rows added in DB
+     */
+    protected static $_count = 0;
     
     public function __construct() {
     }
@@ -83,9 +94,10 @@ class Doc {
         return $results;
     }
     
-    protected function save($response) {
+    protected function save($response, $saveData = false) {
         foreach ($response as $zocdoc) {
             $location = null;
+            $newDoc = false;
             
             // check if the practice listed in our database
             if (isset($zocdoc->practice->id)) {
@@ -112,6 +124,7 @@ class Doc {
                 if ($location) {
                     if ($location->latitude != $zocdoc->location->lat || $location->longitude != $zocdoc->location->lon) {
                         $location = null;
+                        $newDoc = true;
                     }
                 }
             } 
@@ -125,6 +138,7 @@ class Doc {
                     "practice_id" => @$practice->id
                 ));
                 $doctor->save();
+                $newDoc = true;
             }
             
             if (!$location) {
@@ -144,6 +158,16 @@ class Doc {
                     "longitude" => $zocdoc->location->lon
                 ));
                 $location->save();
+            }
+
+            if ($newDoc && $saveData) {
+                self::$_results[] = array(
+                    "name" => $doctor->name,
+                    "gender" => $doctor->gender,
+                    "address" => $location->address,
+                    "zip" => $location->zip_code
+                );
+                self::$_count++;
             }
         }
     }
@@ -168,5 +192,26 @@ class Doc {
             }
             Helper::lastRunCode($last);
         }
+    }
+
+    /**
+     * Fetches all the doctors for a given zipcode and saves the new ones in db
+     */
+    public function manual($zip) {
+        foreach ($this->_specialities as $key => $sp) {
+            $response = $this->processList($zip, $sp);
+            $this->save($response, "saveData");
+        }
+    }
+
+    /**
+     * Returns the new Doctors fetched from the request
+     * @return array
+     */
+    public static function newInfo() {
+        $return = array();
+        $return["doctors"] = self::$_results;
+        $return["count"] = self::$_count;
+        return $return;
     }
 }
