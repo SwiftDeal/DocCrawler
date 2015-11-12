@@ -43,6 +43,7 @@ class Doctor extends Shared\Model {
      * @readwrite
      * @type text
      * @length 3
+     * @index
      * 
      * @validate required 
      * @label Gender (He|She)
@@ -54,9 +55,20 @@ class Doctor extends Shared\Model {
      * @readwrite
      * @type text
      * @length 64
+     * @index
      * 
      * @validate required 
      * @label ZocDoc id
      */
     protected $_zocdoc_id;
+
+    /**
+     * @column
+     * @readwrite
+     * @type integer
+     * @index
+     * 
+     * @label Practise id (default null)
+     */
+    protected $_practice_id;
 }
