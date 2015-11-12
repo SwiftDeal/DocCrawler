@@ -96,7 +96,7 @@ class Doc {
             // Check if the doctor saved in our database
             $doctor = \Doctor::first(array("zocdoc_id = ?" => $zocdoc->doctor->id));
             if ($doctor) {
-                $location = \Location::first(array("doctor_id = ?" => $doctor->id));
+                $location = \DocSearch::first(array("doctor_id = ?" => $doctor->id));
                 if ($location) {
                     if ($location->latitude != $zocdoc->location->lat && $location->longitude != $zocdoc->location->lon) {
                         $location = null;
@@ -104,14 +104,14 @@ class Doc {
                 }
             } 
             else {
-                $doctor = new \Doctor(array("name" => $zocdoc->doctor->name, "gender" => $zocdoc->doctor->gender, "suffix" => $zocdoc->doctor->suffix, "speciality_id" => $zocdoc->doctor->specialty->id, "zocdoc_id" => $zocdoc->doctor->id, "practice_id" => $practice->id));
+                $doctor = new \Doctor(array("name" => $zocdoc->doctor->name, "gender" => $zocdoc->doctor->gender, "suffix" => $zocdoc->doctor->suffix, "speciality_id" => $zocdoc->doctor->specialty->id, "zocdoc_id" => $zocdoc->doctor->id, "practice_id" => ($practice->id) ? $practice->id : ""));
                 $doctor->save();
             }
             
             if (!$location) {
                 // a new location for the doctor
                 $addr = explode(",", $zocdoc->location->address_line_2);
-                $location = new \Location(array("doctor_id" => $doctor->id, "street" => $zocdoc->location->address_line_1, "area" => $addr[0], "city" => $addr[1], "latitude" => $zocdoc->location->lat, "longitude" => $zocdoc->location->lon,));
+                $location = new \DocSearch(array("doctor_id" => $doctor->id, "speciality_id" => $doctor->speciality_id, "street" => $zocdoc->location->address_line_1, "area" => $addr[0], "city" => $addr[1], "latitude" => $zocdoc->location->lat, "longitude" => $zocdoc->location->lon));
                 $location->save();
             }
         }

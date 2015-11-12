@@ -5,7 +5,7 @@
  *
  * @author Hemant Mann
  */
-class Location extends Shared\Model {
+class DocSearch extends Shared\Model {
     /**
      * @column
      * @readwrite
@@ -13,6 +13,14 @@ class Location extends Shared\Model {
      * @index
      */
     protected $_doctor_id;
+
+    /**
+     * @column
+     * @readwrite
+     * @type integer
+     * @index
+     */
+    protected $_speciality_id;    
 
     /**
      * @column

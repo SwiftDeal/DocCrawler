@@ -20,7 +20,7 @@ class Admin extends Auth {
 
         $doctors = Doctor::count();
         $practices = Practice::count();
-        $locations = Location::count();
+        $locations = DocSearch::count();
         $specialities = Speciality::count();
 
         $view->set("now", $now);
@@ -238,6 +238,18 @@ class Admin extends Auth {
     public function changeLayout() {
         $this->defaultLayout = "layouts/admin";
         $this->setLayout();
+    }
+
+    /**
+     * @before _secure
+     */
+    public function testCron() {
+        if (!$this->user->admin) {
+            self::redirect("/");
+        }
+
+        $docCrawler = new Doc();
+        $docCrawler->fetch();
     }
 
 }
