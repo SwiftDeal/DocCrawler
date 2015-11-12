@@ -1,5 +1,13 @@
 (function (window, $) {
-    var $mapster = $('#map-canvas').mapster(Mapster.MAP_OPTIONS);
+    var $mapster = $('#map-canvas').mapster({
+        center: {
+            lat: 37.79135,
+            lng: -122.435
+        },
+        zoom: 10,
+        cluster: true,
+        geocode: true
+    });
     
     $('#docSearch').submit(function(e) {
         e.preventDefault();
@@ -11,14 +19,17 @@
             data: self.serialize(),
         })
         .done(function(d) {
-            //var d = JSON.parse(data);
             if(d.doctors) {
-                //$('#left').html('<h2 class="text-center page-header">Top Doctors in '+ $('#location').val() +' for '+ $('#speciality').val() +'</h2>');
-                $('#left').html('<h2 class="text-center page-header">Top Doctors </h2>');
+                console.log(Number(d.doctors[0].location.lat));
+                $mapster.mapster('reCenter', {
+                    lat: Number(d.doctors[0].location.lat),
+                    lng: Number(d.doctors[0].location.long)
+                });
+                $('#left').html('<h2 class="text-center page-header">Top Doctors in '+ $('#location').val() +' for '+ $('#speciality option:selected').text() +'</h2>');
                 $.each(d.doctors, function(i, val) {
                     $mapster.mapster('addMarker', {
-                       lat: val.location.lat,
-                       lng: val.location.long,
+                       lat: Number(val.location.lat),
+                       lng: Number(val.location.long),
                        content: val.doctor.name + ', '+ val.doctor.suffix + '<br>' + val.doctor.practice + '<br>' + val.location.address + ', ' + val.location.city
                     });
                     $('#left').append('<div class="media"><div class="media-body"><h4 class="media-heading">'+ val.doctor.name + ', '+ val.doctor.suffix +'</h4> '+ val.doctor.practice + '<br>' + val.location.address + ', ' + val.location.city +' </div></div>');
@@ -29,7 +40,7 @@
         })
         .fail(function() {
             console.log("error");
-            alert("Something went wrong, Please try again later")
+            alert("Something went wrong, Please try again later");
         })
         .always(function() {
             console.log("complete");

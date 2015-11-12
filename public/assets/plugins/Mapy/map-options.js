@@ -10,11 +10,11 @@
         draggable: true,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         zoomControlOptions: {
-            position: google.maps.ControlPosition.BOTTOM_LEFT,
+            position: google.maps.ControlPosition.BOTTOM_RIGHT,
             style: google.maps.ZoomControlStyle.DEFAULT
         },
         panControlOptions: {
-            position: google.maps.ControlPosition.BOTTOM_LEFT
+            position: google.maps.ControlPosition.TOP_RIGHT
         },
         cluster: true,
         geocode: true

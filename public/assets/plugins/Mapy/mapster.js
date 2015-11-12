@@ -23,6 +23,12 @@
          */
         Mapster.prototype = {
             /**
+             * Repostions center of map or sets it with latlng parameter
+             */
+            center: function (latlng) {
+                this.gMap.setCenter(latlng);
+            },
+            /**
              * Returns Zoom level of map or sets it with level parameter
              * @param {type} level
              * @returns {mapster_L3.Mapster.prototype@pro;gMap@call;setZoom}

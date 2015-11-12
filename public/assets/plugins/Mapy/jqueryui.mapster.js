@@ -16,6 +16,10 @@
             
         },
 
+        reCenter: function(latlng) {
+            return this.map.center(latlng);
+        },
+
         /**
          * add marker into the map
          * @param {type} opts
