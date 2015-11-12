@@ -9,7 +9,7 @@
         geocode: true
     });
     
-    $('#docSearch').submit(function(e) {
+    $('.docSearch').submit(function(e) {
         e.preventDefault();
         var self = $(this);
         $('#left').html('<br><br><p><img src="http://searchforatopdoc.com/public/assets/images/loading.gif" alt="loader"></p>');
@@ -20,12 +20,11 @@
         })
         .done(function(d) {
             if(d.doctors) {
-                console.log(Number(d.doctors[0].location.lat));
                 $mapster.mapster('reCenter', {
                     lat: Number(d.doctors[0].location.lat),
                     lng: Number(d.doctors[0].location.long)
                 });
-                $('#left').html('<h2 class="text-center page-header">Top Doctors in '+ $('#location').val() +' for '+ $('#speciality option:selected').text() +'</h2>');
+                $('#left').html('<h2 class="text-center page-header">Search Results for Top Doctors</h2>');
                 $.each(d.doctors, function(i, val) {
                     $mapster.mapster('addMarker', {
                        lat: Number(val.location.lat),

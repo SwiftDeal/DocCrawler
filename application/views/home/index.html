@@ -4,19 +4,36 @@
         <div class="col-xs-8" id="left">
             <h2 class="text-center page-header">Search for a Top Doctor</h2>
             <p>We help you to find the top doctors by comparing reviews of thousands of user from different sites. So, select a speciality and enter any zip code, we will show you the best doctors we can find.</p>
-
             <p>You can always contact us info@searchforatopdoc.com, for adding new data.</p>
-
-            <h3>How it Works?</h3>
-            <img src="{echo CDN}images/bot.png" alt="Search Doc Bot">
-            <p>We fetch the data from various sites, stores  into our database process them and show it to you.</p>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="well">
+                        <form class="docSearch">
+                            <div class="form-group">
+                                <label>Speciality</label>
+                                <select class="form-control" name="speciality" required="">
+                                {include layouts/specialities.html}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Zip Code or City</label>
+                                <input type="text" class="form-control" placeholder="Enter" name="location" required="">
+                            </div>
+                            <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
 
             <br>
-            <img src="{echo CDN}images/data.jpg" alt="Search Doc Bot Data">
+            <h3>How it Works?</h3>
+            <p>We fetch the data from various sites, stores into our database process them and show it to you.</p>
             <p>We use various algorithm to sort data and show you on site.</p>
-
+            <img src="{echo CDN}images/data.jpg" alt="Search Doc Bot Data">
             <hr>
-            <small class="pull-right">Developed by <a href="http://cloudstuffs.com/">cloudstuffs.com</a> </small>
         </div>
         <div class="col-xs-4">
             <!--map-canvas will be postioned here-->

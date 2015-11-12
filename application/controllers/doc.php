@@ -32,6 +32,27 @@ class Doc extends Admin {
             $doctor->save();
         }
     }
+
+    /**
+     * @before _secure, _admin, changeLayout
+     */
+    public function change($id) {
+        $this->seo(array("title" => "Update Doctor","view" => $this->getLayoutView()));
+        $view = $this->getActionView();
+        $doctor = Doctor::first(array("id = ?" => $id));
+        
+        if (RequestMethods::post("action") == "updateDoc") {
+            $doctor->name = RequestMethods::post("name");
+            $doctor->suffix = RequestMethods::post("suffix");
+            $doctor->speciality_id = RequestMethods::post("speciality_id");
+            $doctor->gender = RequestMethods::post("gender");
+            $doctor->save();
+
+            $view->set("success", true);
+        }
+
+        $view->set("doctor", $doctor);
+    }
     
     /**
      * @before _secure, _admin, changeLayout
@@ -46,10 +67,7 @@ class Doc extends Admin {
         $limit = RequestMethods::get("limit", 10);
         $page = RequestMethods::get("page", 1);
         
-        $doctors = Doctor::all(array() , array(
-            "name",
-            "suffix"
-        ) , "created", "desc", $limit, $page);
+        $doctors = Doctor::all(array() , array("name","suffix", "id") , "created", "desc", $limit, $page);
         $count = Doctor::count();
         
         $view->set("count", $count);
