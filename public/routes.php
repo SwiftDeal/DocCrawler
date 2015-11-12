@@ -9,6 +9,11 @@ $routes = array(
         "action" => "login"
     ),
     array(
+        "pattern" => "logout",
+        "controller" => "auth",
+        "action" => "logout"
+    ),
+    array(
         "pattern" => "home",
         "controller" => "home",
         "action" => "index"

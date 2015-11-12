@@ -19,7 +19,7 @@
             data: self.serialize(),
         })
         .done(function(d) {
-            if(d.doctors) {
+            if(d.doctors[0]) {
                 $mapster.mapster('reCenter', {
                     lat: Number(d.doctors[0].location.lat),
                     lng: Number(d.doctors[0].location.long)
@@ -34,7 +34,7 @@
                     $('#left').append('<div class="media"><div class="media-body"><h4 class="media-heading">'+ val.doctor.name + ', '+ val.doctor.suffix +'</h4> '+ val.doctor.practice + '<br>' + val.location.address + ', ' + val.location.city +' </div></div>');
                 });
             } else{
-                $('#left').html('No Results Found, Please try some other location');
+                $('#left').html('<br><br><p>No Results Found, Please try some other location, <a href="/">go back</a></p>');
             };
         })
         .fail(function() {
