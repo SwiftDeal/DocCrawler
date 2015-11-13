@@ -1,0 +1,48 @@
+/* cyrillic */
+@font-face {
+  font-family: 'Philosopher';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Philosopher'), url(http://fonts.gstatic.com/s/philosopher/v7/OttjxgcoEsufOGSINYBGLV4sYYdJg5dU2qzJEVSuta0.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin */
+@font-face {
+  font-family: 'Philosopher';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Philosopher'), url(http://fonts.gstatic.com/s/philosopher/v7/OttjxgcoEsufOGSINYBGLYgp9Q8gbYrhqGlRav_IXfk.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Philosopher';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Philosopher Bold'), local('Philosopher-Bold'), url(http://fonts.gstatic.com/s/philosopher/v7/napvkewXG9Gqby5vwGHICFx-M1I1w5OMiqnVF8xBLhU.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin */
+@font-face {
+  font-family: 'Philosopher';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Philosopher Bold'), local('Philosopher-Bold'), url(http://fonts.gstatic.com/s/philosopher/v7/napvkewXG9Gqby5vwGHICP79_ZuUxCigM2DespTnFaw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Philosopher';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Philosopher Italic'), local('Philosopher-Italic'), url(http://fonts.gstatic.com/s/philosopher/v7/_9Hnc_gz9k7Qq6uKaeHKmW3PJHrlYDflBZ8jpDuHrUE.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin */
+@font-face {
+  font-family: 'Philosopher';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Philosopher Italic'), local('Philosopher-Italic'), url(http://fonts.gstatic.com/s/philosopher/v7/_9Hnc_gz9k7Qq6uKaeHKmQeOulFbQKHxPa89BaxZzA0.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}

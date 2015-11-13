@@ -14,6 +14,11 @@ $routes = array(
         "action" => "logout"
     ),
     array(
+        "pattern" => "contact",
+        "controller" => "home",
+        "action" => "contact"
+    ),
+    array(
         "pattern" => "home",
         "controller" => "home",
         "action" => "index"

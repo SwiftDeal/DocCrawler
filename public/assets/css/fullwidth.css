@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Coming Soon Page</title>
+        <link rel='stylesheet' id='_style-css'  href='http://vowthemes.com/wp-content/plugins/smart-maintenance-countdown/templates/NoCountDown/style.css?ver=4.3.1' type='text/css' media='all' />
+<script type='text/javascript' src='http://vowthemes.com/wp-includes/js/jquery/jquery.js?ver=1.11.3'></script>
+<script type='text/javascript' src='http://vowthemes.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://vowthemes.com/wp-content/plugins/smart-maintenance-countdown/templates/NoCountDown/js/countdown.js?ver=4.3.1'></script>
+    </head>
+    <body>
+		<div id="wrapper">
+			<div id="content">
+                <br /><br /><br /><br />
+				<h1>Vow Themes</h1>
+				<!--<p id="o">Our website is</p>-->
+				<h2>Coming Soon</h2>
+                <!--                <a href="#"><img src="images/linkedin.png" /></a>-->
+				<p>                </p>
+<!--				<form method="post" action="#">-->
+<!--				<div id="sub">-->
+<!--					<input type="email" name="email" id="email" placeholder="your@email.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'your@email.com'" />-->
+<!--					<input type="submit" value="Submit" />-->
+<!--				</div>-->
+<!--				</form>-->
+			</div>
+		</div>
+	</body>
+</html>
+
+
+
+

@@ -1,3 +1,8 @@
+/**
+ * Central Model Js by cloudstuffs.com
+ * @param  object window [description]
+ * @author faizan@cloudstuffs.com
+ */
 (function (window) {
 
     var Model = (function () {

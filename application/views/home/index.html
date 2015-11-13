@@ -1,61 +1,110 @@
-<div id="map-canvas"></div>
-<div class="container-fluid" id="main">
-    <div class="row">
-        <div class="col-xs-8" id="left">
-            <h2 class="text-center page-header">Search for a Top Doctor</h2>
-            <p>We help you to find the top doctors by comparing reviews of thousands of user from different sites. So, select a speciality and enter any zip code, we will show you the best doctors we can find.</p>
-            <p>You can always contact us info@searchforatopdoc.com, for adding new data.</p>
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <div class="well">
-                        <form class="docSearch">
-                            <div class="form-group">
-                                <label>Speciality</label>
-                                <select class="form-control" name="speciality" required="">
-                                {include layouts/specialities.html}
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Zip Code or City</label>
-                                <input type="text" class="form-control" placeholder="Enter" name="location" required="">
-                            </div>
-                            <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
-                            <br>
-                        </form>
-                    </div>
+<!-- Slider -->
+<div class="slider">
+    <div class="flexslider">
+        <ul class="slides">
+            <li>
+                <img src="{echo CDN}images/slider-img.jpg" />
+            </li>
+            <li>
+                <img src="{echo CDN}images/slider-img.jpg" />
+            </li>
+        </ul>
+    </div>
+    <!-- Book Apointment -->
+    <div class="book-form">
+        <div class="inner-form">
+            <h4><img src="{echo CDN}images/search.png" alt="">Search for a TopDoc</h4>
+            <form id="contact-form2" action="#">
+                <div class="inputs">
+                    <input name="city" id="city" type="text" data-value="City Name">
+                    <input name="zip" id="zip" type="text" data-value="Zip Code">
+                    <input name="doctor" id="name" type="text" data-value="Doctor Name (Optional)">
+                    <select class="selects" name="speciality_id">
+                        {include layouts/specialities.html}
+                    </select>
                 </div>
-                <div class="col-md-2"></div>
-            </div>
-            <br>
-            
-            <h3 class="page-header">Doctor Search</h3>
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <div class="well">
-                        <form class="dSearch">
-                            <div class="form-group">
-                                <label>Search Doctor</label>
-                                <input type="text" class="form-control" placeholder="Enter Name" name="doctor" required="">
-                            </div>
-                            <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
-                            <br>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-md-2"></div>
-            </div>
-
-            <br>
-            <h3 class="page-header">How it Works?</h3>
-            <p>We fetch the data from various sites, stores into our database process them and show it to you.</p>
-            <p>We use various algorithm to sort data and show you on site.</p>
-            <img src="{echo CDN}images/data.jpg" class="img-responsive" alt="Search Doc Bot Data">
-            <hr>
-        </div>
-        <div class="col-xs-4">
-            <!--map-canvas will be postioned here-->
+                <input id="submit_contact2" type="submit" value="Search Now">
+                <div id="msg2" class="message"></div>
+            </form>
         </div>
     </div>
+    <!-- End Book Apointment -->
 </div>
+<!-- End SLider -->
+<!-- Container -->
+<div class="wrapper">
+    <!-- Recent Works -->
+    <div class="row5 dark">
+        <div class="row5-text column8">
+            <h4>About Us</h4>
+            <div class="border"></div>
+            <img src="images/row5img.jpg" alt="">
+            <p>This is <span>Photoshop version</span> of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. </p>
+            <p>Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim.This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit</p>
+        </div>
+        <div class="stats column4">
+            <h4>Some Statistics</h4>
+            <div class="border"></div>
+            <p>Qualified Doctors:</p>
+            <div class="number">6549</div>
+            <p>Locations:</p>
+            <div class="number">1329</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <!-- End Recent Works -->
+    <div class="l-more">
+        <div class="l-banner">
+            <p><strong>Top Doc</strong> has a widest range of health care doctors, to fill all your medical needs</p>
+            <a href="#">Learn More</a>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="row4 dark">
+        <!-- Accordion -->
+        <div class="accordion column6">
+            <div class="recent-projects">
+            <h4>Testimonials</h4>
+            <div class="border"></div>
+            <ul class="dark">
+                <li class="">
+                    <img src="images/news1.jpg" alt="">
+                    <h4>Proin gravida nibh vel velit auctor aliquet aenean sollicitudin</h4>
+                    <p>Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh</p>
+                    <a href="#" class="details">Read More</a>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        </div>
+        <!-- Client Testimonials -->
+        <div class="testimonials column6">
+            <div class="border"></div>
+            <div class="bx-wrapper" style="max-width: 100%; margin: 0px auto;">
+                <div class="bx-viewport" style="width: 100%; overflow: hidden; position: relative; height: 270px;">
+                    <ul class="bxslider fade p0 m0" data-autoslide="0" data-autoslide_on="0" style="width: auto; position: relative;">
+                        <li style="float: none; list-style: none; position: absolute; width: 570px; z-index: 50; display: block;">
+                            <blockquote class="speech-bubble">
+                                <div class="quote-content">
+                                    <p class="m0">I use TocDoc to search for all my doctors. This just makes it so easy!</p>
+                                    <span class="quote-arrow"></span>
+                                </div>
+                                <div class="quote-meta"><strong>John Smith</strong>
+                                    <span>- Web Designer</span>
+                                </div>
+                            </blockquote>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bx-controls bx-has-controls-direction">
+                    <div class="bx-controls-direction"><a class="bx-prev" href="">Prev</a><a class="bx-next" href="">Next</a></div>
+                </div>
+            </div>
+        </div>
+        <!-- End Client Testimonials -->
+        <div class="clear"></div>
+        <br><br>
+    </div>
+</div>
+<!-- End Wrapper -->

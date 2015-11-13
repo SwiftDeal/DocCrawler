@@ -1,11 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>SearchForTopDoc</title>
-    
     <meta http-equiv="Content-Type" content="text/html">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,32 +15,92 @@
     <meta name="Revisit-after" content="1 Day">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <title>Search for a Top Doctor</title>
+    <link rel="stylesheet" href="{echo CDN}css/style.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="{echo CDN}css/dr-framework.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="{echo CDN}css/navigation.css" type="text/css" media="screen">
+    <link rel="stylesheet" type="text/css" href="{echo CDN}css/fullwidth.css" media="screen" />
+    <link rel="stylesheet" href="{echo CDN}css/revslider.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="{echo CDN}css/jquery.bxslider.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="{echo CDN}css/responsive.css" type="text/css" media="screen">
+    
+    <link href="http://fonts.googleapis.com/css?family=Oswald:400,300,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Philosopher:400,700,400italic" rel="stylesheet" type="text/css">
     
     <!--[if lt IE 9]>
-      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    
-    <link href="{echo CDN}css/style.css" rel="stylesheet">
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+	<![endif]-->
+    <!-- html5.js for IE less than 9 -->
+    <!-- css3-mediaqueries.js for IE less than 9 -->
+    <!--[if lt IE 9]>
+		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+	<![endif]-->
+    <!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 </head>
 
 <body>
-
+    
     {include layouts/navigation/standard.html}
     {ayield action}
 
-    <!-- jQuery Version 1.11.1 -->
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?extension=.js&output=embed"></script>
-    <script src="{echo CDN}plugins/Mapy/markerclusterer_compiled.js"></script>
-    <script src="{echo CDN}plugins/Mapy/list.js"></script>
-    <script src="{echo CDN}plugins/Mapy/mapster.js"></script>
-    <script src="{echo CDN}plugins/Mapy/map-options.js"></script>
-    <script src="{echo CDN}plugins/Mapy/jqueryui.mapster.js"></script>
-    <script src="{echo CDN}js/script-1.1.js"></script>
+    <!-- Footer -->
+    <footer>
+        <div class="inner-footer dark">
+            <div class="service column4">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#">Teeth Whitening</a></li>
+                    <li><a href="#">Crowns Dental Bridges</a></li>
+                    <li><a href="#">Oral Exam and X-Rays</a></li>
+                    <li><a href="#">Gastroscopic Services</a></li>
+                </ul>
+            </div>
+            <div class="text-widget column4">
+                <h4>Twitter Widget</h4>
+                <p>Duis sed odio sit amet nibh vulputate cursusa sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae </p>
+            </div>
+            <div class="contact column4">
+                <h4>Contact us</h4>
+                <p>info@searchforatopdoc.com</p>
+                <p>+123 456 789 00</p>
+                <p>address street no 24 b41</p>
+            </div>
+            <div class="clear"></div>
+            <!-- End Contact -->
+            <div id="back-to-top">
+                <a href="#top">Back to Top</a>
+            </div>
+        </div>
+        <!-- End inner Footer -->
+        <div class="end-footer">
+            <div class="lastdiv">
+                <div class="copyright">
+                    &copy; 2015 SearchForaTopDoc, All Rights Reserved
+                </div>
+                <div class="f-socials">
+                    <a href="#"><img src="{echo CDN}images/feed.png" alt=""></a>
+                    <a href="#"><img src="{echo CDN}images/tweet.png" alt=""></a>
+                    <a href="#"><img src="{echo CDN}images/fcb.png" alt=""></a>
+                    <a href="#"><img src="{echo CDN}images/gplus.png" alt=""></a>
+                    <a href="#"><img src="{echo CDN}images/pin.png" alt=""></a>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </footer>
+    <script type="text/javascript" src="{echo CDN}js/jquery.min.js"></script>
+    <script src="{echo CDN}js/jquery.flexslider.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(window).load(function() {
+        $(".flexslider").flexslider();
+    });
+    </script>
+    <script type="text/javascript" src="{echo CDN}js/jquery.superfish.js"></script>
+    <script type="text/javascript" src="{echo CDN}js/script.js"></script>
+    <script type="text/javascript" src="{echo CDN}js/zebra_datepicker.js"></script>
+    <script type="text/javascript" src="{echo CDN}js/core.js"></script>
 </body>
-
 </html>

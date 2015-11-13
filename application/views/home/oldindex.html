@@ -1,0 +1,61 @@
+<div id="map-canvas"></div>
+<div class="container-fluid" id="main">
+    <div class="row">
+        <div class="col-xs-8" id="left">
+            <h2 class="text-center page-header">Search for a Top Doctor</h2>
+            <p>We help you to find the top doctors by comparing reviews of thousands of user from different sites. So, select a speciality and enter any zip code, we will show you the best doctors we can find.</p>
+            <p>You can always contact us info@searchforatopdoc.com, for adding new data.</p>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="well">
+                        <form class="docSearch">
+                            <div class="form-group">
+                                <label>Speciality</label>
+                                <select class="form-control" name="speciality" required="">
+                                {include layouts/specialities.html}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Zip Code or City</label>
+                                <input type="text" class="form-control" placeholder="Enter" name="location" required="">
+                            </div>
+                            <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <br>
+            
+            <h3 class="page-header">Doctor Search</h3>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="well">
+                        <form class="dSearch">
+                            <div class="form-group">
+                                <label>Search Doctor</label>
+                                <input type="text" class="form-control" placeholder="Enter Name" name="doctor" required="">
+                            </div>
+                            <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <br>
+            <h3 class="page-header">How it Works?</h3>
+            <p>We fetch the data from various sites, stores into our database process them and show it to you.</p>
+            <p>We use various algorithm to sort data and show you on site.</p>
+            <img src="{echo CDN}images/data.jpg" class="img-responsive" alt="Search Doc Bot Data">
+            <hr>
+        </div>
+        <div class="col-xs-4">
+            <!--map-canvas will be postioned here-->
+        </div>
+    </div>
+</div>
