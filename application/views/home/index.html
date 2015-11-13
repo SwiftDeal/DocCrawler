@@ -14,11 +14,11 @@
     <div class="book-form">
         <div class="inner-form">
             <h4><img src="{echo CDN}images/search.png" alt="">Search for a TopDoc</h4>
-            <form id="contact-form2" action="#">
+            <form id="contact-form2" action="#" class="docSearch">
                 <div class="inputs">
-                    <input name="city" id="city" type="text" data-value="City Name">
+                    <input name="location" id="city" type="text" data-value="City Name">
                     <input name="zip" id="zip" type="text" data-value="Zip Code">
-                    <input name="doctor" id="name" type="text" data-value="Doctor Name (Optional)">
+                    <input name="doctor" id="name" type="text" data-value="Doctor Name - Optional">
                     <select class="selects" name="speciality_id">
                         {include layouts/specialities.html}
                     </select>
@@ -35,14 +35,12 @@
 <div class="wrapper">
     <!-- Recent Works -->
     <div class="row5 dark">
-        <div class="row5-text column8">
-            <h4>About Us</h4>
+        <div class="row5-text column8" id="docSearch">
+            <h4>Services</h4>
             <div class="border"></div>
-            <img src="images/row5img.jpg" alt="">
-            <p>This is <span>Photoshop version</span> of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. </p>
-            <p>Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim.This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit</p>
+            <p>Search for a Top Doc is the ultimate search functionality . Find your medical Practitioner quick and effortlessly with no frills and no fuss.</p>
         </div>
-        <div class="stats column4">
+        <div class="stats column4" id="map-canvas">
             <h4>Some Statistics</h4>
             <div class="border"></div>
             <p>Qualified Doctors:</p>
