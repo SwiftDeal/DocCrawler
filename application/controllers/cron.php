@@ -20,8 +20,8 @@ class CRON extends Auth {
     public function index() {
         //protected functions to be added here
         //$this->job();
-        // $docCrawler = new Doc();
-        // $docCrawler->fetch();
+        $docCrawler = new Doc();
+        $docCrawler->fetch();
     }
 
     public function _secure() {
