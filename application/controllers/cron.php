@@ -14,6 +14,9 @@ class CRON extends Auth {
         $this->willRenderActionView = false;
     }
 
+    /**
+     * @before _secure
+     */
     public function index() {
         //protected functions to be added here
         //$this->job();
@@ -21,7 +24,9 @@ class CRON extends Auth {
         // $docCrawler->fetch();
     }
 
-    protected function job() {
-        
+    public function _secure() {
+        if ($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']) {
+            die('access is not permitted');
+        }
     }
 }
