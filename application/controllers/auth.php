@@ -77,6 +77,22 @@ class Auth extends Controller {
         $this->setUser(false);
         self::redirect("/home");
     }
+
+    protected function log($message = "") {
+        $logfile = APP_PATH . "/logs/" . date("Y-m-d") . ".txt";
+        $new = file_exists($logfile) ? false : true;
+        if ($handle = fopen($logfile, 'a')) {
+            $timestamp = strftime("%Y-%m-%d %H:%M:%S", time() + 1800);
+            $content = "[{$timestamp}]{$message}\n";
+            fwrite($handle, $content);
+            fclose($handle);
+            if ($new) {
+                chmod($logfile, 0755);
+            }
+        } else {
+            echo "Could not open log file for writing";
+        }
+    }
     
     /**
      * The method checks whether a file has been uploaded. If it has, the method attempts to move the file to a permanent location.

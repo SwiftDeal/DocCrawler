@@ -4,7 +4,6 @@ define("DEBUG", TRUE);
 
 // 1. define the default path for includes
 define("APP_PATH", str_replace(DIRECTORY_SEPARATOR, "/", dirname(__FILE__)));
-define("URL", "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 define("CDN", "http://searchforatopdoc.com/public/assets/");
 
 try {

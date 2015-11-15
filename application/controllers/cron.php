@@ -6,6 +6,7 @@
  * @author Faizan Ayubi
  */
 use Shared\Doc as Doc;
+
 class CRON extends Auth {
 
     public function __construct($options = array()) {
@@ -14,19 +15,10 @@ class CRON extends Auth {
         $this->willRenderActionView = false;
     }
 
-    /**
-     * @before _secure
-     */
     public function index() {
-        //protected functions to be added here
-        //$this->job();
+        $this->log("CRON Job Started");
         $docCrawler = new Doc();
         $docCrawler->fetch();
-    }
-
-    public function _secure() {
-        if ($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']) {
-            die('access is not permitted');
-        }
+        $this->log("CRON Job Ended");
     }
 }
