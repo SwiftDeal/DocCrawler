@@ -17,19 +17,21 @@
             <p>Please be specific about entering the info so we can verify</p>
         </div>
         <div class="msg-form column8">
-            <h4>Regsiter Now</h4>
+            <h4>Register Now</h4>
             <div class="border"></div>
-            <form id="contact-form" action="#">
-                <input name="name" id="name" type="text" data-value="name">
-                <input name="mail" id="mail" type="text" data-value="email">
-                <input name="name" id="name" type="text" data-value="name">
-                <input name="mail" id="mail" type="text" data-value="email">
-                <input name="name" id="name" type="text" data-value="name">
+            <form action="" method="post">
+                <input name="first" id="name" type="text" placeholder="First Name" required="">
+                <input name="last" id="name" type="text" placeholder="Last Name">
+                <input name="gender" id="name" type="text" placeholder="Gender - he or she">
                 <select class="selects" name="speciality_id">
-                        {include layouts/specialities.html}
-                    </select>
+                    <option>Select Your Speciality</option>
+                    {include layouts/specialities.html}
+                </select>
+                <input name="action" type="hidden" value="register">
                 <input type="submit" id="submit_contact" value="Submit">
-                <div id="msg" class="message"></div>
+                {if($success)}
+                <div id="msg" class="message">Saved Successfully</div>
+                {/if}
             </form>
         </div>
         <div class="clear"></div>

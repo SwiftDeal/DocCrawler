@@ -247,7 +247,7 @@ border-top-left-radius: 10px;
 }
 
 .book-form input[type="submit"]:hover {
-  background: #A3C93F;
+  background: #1b72aa;
 }
 
 
@@ -346,9 +346,6 @@ border-top-left-radius: 10px;
 
 .recent-projects ul{
   list-style: none;
-}
-.recent-projects ul img{
-  width: 100%;
 }
 .recent-projects h4{
   font-family: Georgia;
@@ -727,7 +724,7 @@ blockquote.speech-bubble span {
 
 .row5-text p{
   color: #65686d;
-  font-size: 13px;
+  font-size: 15px;
   margin-bottom: 10px;
 }
 
