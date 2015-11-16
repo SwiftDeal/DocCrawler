@@ -108,11 +108,12 @@ class Doc extends Admin {
         $view = $this->getActionView();
         $speciality_id = RequestMethods::get("speciality", 153);
         $location = RequestMethods::get("location", "New York");
+        $zip = RequestMethods::get("zip");
         $page = RequestMethods::get("page", 1);
         $count = 500;
 
-        if (is_numeric($location) && strlen($location) == 5) {
-            $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "zip_code = ?" => $location), array("*"), "created", "desc", 10, $page);
+        if (isset($zip)) {
+            $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "zip_code = ?" => $zip), array("*"), "created", "desc", 10, $page);
         } else {
             $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "city = ?" => $location), array("*"), "created", "desc", 10, $page);
         }
