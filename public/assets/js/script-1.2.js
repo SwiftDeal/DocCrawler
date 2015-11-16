@@ -3,15 +3,18 @@
     $('.docSearch').submit(function(e) {
         e.preventDefault();
         $('#map-canvas').html('');
-        var $mapster = $('#map-canvas').mapster({
-	        center: {
-	            lat: 37.79135,
-	            lng: -122.435
-	        },
-	        zoom: 10,
-	        cluster: true,
-	        geocode: true
-	    });
+
+        if (!$mapster) {
+            var $mapster = $('#map-canvas').mapster({
+                center: {
+                    lat: 37.79135,
+                    lng: -122.435
+                },
+                zoom: 10,
+                cluster: true,
+                geocode: true
+            });
+        };
 
         var self = $(this);
         self.addClass('main-blog');
@@ -45,8 +48,8 @@
                 console.log("error");
                 alert("Something went wrong, Please try again later");
             })
-            .always(function() {
-                console.log("complete");
+            .always(function(d) {
+                console.log(d.doctors.length);
             });
 
     });

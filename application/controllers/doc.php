@@ -102,20 +102,37 @@ class Doc extends Admin {
             $view->set('doctors', array());
         }
     }
+
+    public function find() {
+        $this->JSONview();
+        $view = $this->getActionView();
+        $name = RequestMethods::get("name");
+        $speciality_id = RequestMethods::get("speciality_id");
+        $limit = RequestMethods::get("limit", 10);
+        $page = RequestMethods::get("page", 1);
+
+        $doctors = Doctor::all(array("name LIKE ?" => "%{$name}%"), array("suffix", "name", "gender", "speciality_id"), "created", "desc", $limit, $page);
+        $count = Doctor::count(array("name LIKE ?" => "%{$name}%"));
+
+        $view->set("doctors", $doctors);
+        $view->set("total", $count);
+    }
     
     public function fetch() {
         $this->JSONview();
         $view = $this->getActionView();
-        $speciality_id = RequestMethods::get("speciality", 153);
+        $speciality_id = RequestMethods::get("speciality_id");
         $location = RequestMethods::get("location", "New York");
         $zip = RequestMethods::get("zip");
+        $limit = RequestMethods::get("limit", 50);
         $page = RequestMethods::get("page", 1);
-        $count = 500;
 
-        if (isset($zip)) {
-            $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "zip_code = ?" => $zip), array("*"), "created", "desc", 10, $page);
+        if (is_numeric($zip)) {
+            $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "zip_code = ?" => $zip), array("*"), "created", "desc", $limit, $page);
+            $count = DocSearch::count(array("speciality_id = ?" => $speciality_id, "zip_code = ?" => $zip));
         } else {
-            $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "city = ?" => $location), array("*"), "created", "desc", 10, $page);
+            $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "city = ?" => $location), array("*"), "created", "desc", $limit, $page);
+            $count = DocSearch::count(array("speciality_id = ?" => $speciality_id, "city = ?" => $location));
         }
 
         $results = array();
@@ -145,5 +162,6 @@ class Doc extends Admin {
         }
         $results = ArrayMethods::toObject($results);
         $view->set("doctors", $results);
+        $view->set("total", $count);
     }
 }

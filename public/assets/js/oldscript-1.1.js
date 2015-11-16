@@ -41,8 +41,8 @@
             console.log("error");
             alert("Something went wrong, Please try again later");
         })
-        .always(function() {
-            console.log("complete");
+        .always(function(d) {
+            console.log(d.doctors.length);
         });
         
     });
