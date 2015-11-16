@@ -179,25 +179,30 @@ class Doc {
         }
     }
     
-    public function fetch() {
+    public function fetch($check = false) {
         $codes = Helper::zip_codes();
+        $total = count($codes);
         
         $last = Helper::lastRunCode();
-        foreach ($codes as $key => $zip) {
+        if ($check) {
             if ($last) {
-                if ($last != $zip) {
-                    continue;
-                }
-            } 
-            else {
-                $last = $zip;
+                $index = $last;
+            } else {
+                $index = 0;
             }
-            
+        } else {
+            $index = 0;
+        }
+        
+        for ($i = $index; $i < $total; ++$i) {
             foreach ($this->_specialities as $key => $sp) {
-                $response = $this->processList($zip, $sp);
+                $response = $this->processList($codes[$i], $sp);
                 $this->save($response);
             }
-            Helper::lastRunCode($last);
+
+            if ($check) {
+                Helper::lastRunCode($i);    
+            }
         }
     }
 
