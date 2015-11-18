@@ -54,6 +54,16 @@ class Doctor extends Shared\Model {
      * @column
      * @readwrite
      * @type text
+     * 
+     * @validate required 
+     * @label Bio
+     */
+    protected $_bio;
+
+    /**
+     * @column
+     * @readwrite
+     * @type text
      * @length 64
      * @index
      * 

@@ -53,15 +53,6 @@ class Doc {
         return false;
     }
     
-    protected function searchUrl($zip, $speciality, $offset) {
-        return 'https://www.zocdoc.com/search/searchresults?Address=' . $zip . '&ForceReskin=false&Gender=-1&HospitalId=-1&InsuranceId=-1&InsurancePlanId=-1&LanguageId=1&ProcedureId=12&SpecialtyId=' . $speciality . '&SubSpecialtyId=-1&LimitToThisSpecialty=false&ExcludedSpecialtyIds=&Offset=' . $offset . '&PatientTypeChild=false&genderChanged=false&languageChanged=false&IsPolarisRevealed=False&StartDate=null&_=1444650384181';
-    }
-    
-    protected function doctorsList($ids) {
-        $date_end = date("Y-m-d", strtotime(date("Y-m-d") . "+3 day"));
-        return 'https://www.zocdoc.com/api/1/appointments/doctor_location/' . $ids . '?start=' . $date_end . '&length=3&procedure_id=12&refinement_id=-1&insurance_plan_id=-1&fullDoctorInformation=false';
-    }
-    
     /**
      * Returns list of doctors info for a given zipcode and category (speciality).
      *
@@ -74,13 +65,13 @@ class Doc {
         $response = array();
         
         for ($i = 0; $i <= 90; $i += 10) {
-            $body = $this->executeRequest('search', $this->searchUrl($zip, $cat, $i));
+            $body = $this->executeRequest('search', Helper::serachUrl($zip, $cat, $i));
             
             $search = json_decode($this->filterResult($body));
             $ids = $search->ids;
             
             if (!empty($ids)) {
-                $body = $this->executeRequest('doctors', $this->doctorsList($ids));
+                $body = $this->executeRequest('doctors', Helper::doctorsList($ids));
             } 
             else {
                 $body = false;
