@@ -39,4 +39,13 @@ class InsuranceSearch extends Shared\Model {
      * @label Zip code (it is of 5 digits eg: 10007)
      */
     protected $_zip_code;
+
+    /**
+     * @column
+     * @readwrite
+     * @type text
+     * @length 255
+     * @index
+     */
+    protected $_city;
 }

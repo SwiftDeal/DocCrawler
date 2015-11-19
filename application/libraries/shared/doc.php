@@ -33,12 +33,20 @@ class Doc {
         self::$_count = 0;
     }
     
-    protected function filterResult($result) {
+    protected function _filterResult($result) {
         $result = str_replace("for(;;);", "", $result);
         return $result;
     }
     
-    protected function executeRequest($key, $url) {
+    /**
+     * Executes a bot request and returns the body of the request if request was
+     * successful else returns false
+     *
+     * @param string $key Just a key for logging the bot request (if logging enabled)
+     * @param url $url Url of the page to be fetched
+     * @return string|boolean|object
+     */
+    protected function _executeRequest($key, $url, $scrape = false) {
         $urls = array(
             "$key" => $url
         );
@@ -47,8 +55,12 @@ class Doc {
         $documents = $bot->getDocuments();
         $document = ($documents) ? array_pop($documents) : false;
         
-        if ($document) {
+        if ($document && !$scrape) {
             return $document->getHttpResponse()->getBody();
+        }
+
+        if ($document && $scrape) {
+            return $document;
         }
         return false;
     }
@@ -60,25 +72,25 @@ class Doc {
      * @param string $cat Speciality Id of the doctor
      * @return object of stdClass
      */
-    protected function processList($zip, $cat) {
+    protected function _processList($zip, $cat) {
         $results = array();
         $response = array();
         
         for ($i = 0; $i <= 90; $i += 10) {
-            $body = $this->executeRequest('search', Helper::serachUrl($zip, $cat, $i));
+            $body = $this->_executeRequest('search', Helper::searchUrl($zip, $cat, $i));
             
-            $search = json_decode($this->filterResult($body));
+            $search = json_decode($this->_filterResult($body));
             $ids = $search->ids;
             
             if (!empty($ids)) {
-                $body = $this->executeRequest('doctors', Helper::doctorsList($ids));
+                $body = $this->_executeRequest('doctors', Helper::doctorsList($ids));
             } 
             else {
                 $body = false;
             }
             
             if ($body) {
-                $result = json_decode($this->filterResult($body));
+                $result = json_decode($this->_filterResult($body));
                 foreach ($result->doctor_locations as $doc) {
                     $results[] = $doc;
                 }
@@ -89,8 +101,81 @@ class Doc {
         }
         return $results;
     }
+
+    /**
+     * Saves the insurance details of the firms and plans registered with doctor
+     *
+     * @param \Doctor object $doc
+     * @param \DocSearch object $loc
+     */
+    protected function _insurance($doc, $loc) {
+        // find all the insurance plans registered with the doctor
+        $body = $this->_executeRequest('insurance', Helper::insurance($doc->zocdoc_id));
+
+        if (!$body) {
+            return;
+        }
+
+        $insurances = json_decode($this->_filterResult($body))->Carriers;
+        foreach ($insurances as $i) {
+            // check if Insurance Carrier saved in db
+            $carrier = \Insurance::first(array("name = ?" => $i->Name));
+            if (!$carrier) {
+                $carrier = new \Insurance(array(
+                    "name" => $i->Name
+                ));
+                $carrier->save();
+            }
+            $plans = $i->Plans;
+            foreach ($plans as $p) {
+                // check if plan saved in db
+                $ins_plan = \InsurancePlan::first(array("name = ?" => $p->Name));
+                if (!$ins_plan) {
+                    $ins_plan = new \InsurancePlan(array(
+                        "name" => $p->Name,
+                        "insurance_id" => $carrier->id
+                    ));
+                    $ins_plan->save();
+                }
+
+                // Add the plan for doctor in insurance search
+                $search = \InsuranceSearch::first(array("ins_plan_id = ?" => $ins_plan->id, "doctor_id = ?" => $doc->id, "speciality_id = ?" => $doc->speciality_id));
+                if (!$search) {
+                    $search = new \InsuranceSearch(array(
+                        "ins_plan_id" => $ins_plan->id,
+                        "doctor_id" => $doc->id,
+                        "speciality_id" => $doc->speciality_id,
+                        "zip_code" => $loc->zip_code,
+                        "city" => $loc->city
+                    ));
+                    $search->save();
+                }
+            }
+        }
+    }
+
+    /**
+     * Try to get the bio of the doctor from his profile if found then scrapes
+     * the info else return empty string
+     */
+    protected function _bio() {
+        // Get doctor bio from his profile
+        $result = "";
+        if ($zocdoc->doctor->url) {
+            $doc = $this->_executeRequest('bio', 'http://zocdoc.com'. $zocdoc->doctor->url, true);
+            if ($doc) {
+                try {
+                    $el = $doc->query('//*[@id="html"]/body/div[2]/div/div[2]/div/div[1]/div[2]/div/div/div')->item(0);
+                    $result = "<pre>". $el->nodeValue ."</pre>";    
+                } catch (\Exception $e) {
+                    // Could not find the info
+                }
+            }
+        }
+        return $result;
+    }
     
-    protected function save($response, $saveData = false) {
+    protected function _save($response, $saveData = false) {
         foreach ($response as $zocdoc) {
             $location = null;
             $newDoc = false;
@@ -129,6 +214,7 @@ class Doc {
                     $doctor = new \Doctor(array(
                         "name" => $zocdoc->doctor->name,
                         "gender" => $zocdoc->doctor->gender,
+                        "bio" => $this->_bio(),
                         "suffix" => $zocdoc->doctor->suffix,
                         "speciality_id" => $zocdoc->doctor->specialty->id,
                         "zocdoc_id" => $zocdoc->doctor->id,
@@ -157,6 +243,8 @@ class Doc {
                     $location->save();
                 }
             }
+
+            $this->_insurance($doctor, $location);
 
             if ($newDoc && $saveData) {
                 self::$_results[] = array(
@@ -187,8 +275,8 @@ class Doc {
         
         for ($i = $index; $i < $total; ++$i) {
             foreach ($this->_specialities as $key => $sp) {
-                $response = $this->processList($codes[$i], $sp);
-                $this->save($response);
+                $response = $this->_processList($codes[$i], $sp);
+                $this->_save($response);
             }
 
             if ($check) {
@@ -204,14 +292,14 @@ class Doc {
         switch ($env) {
             case 'production':
                 foreach ($this->_specialities as $key => $sp) {
-                    $response = $this->processList($arr["zip"], $sp);
-                    $this->save($response, "saveData");
+                    $response = $this->_processList($arr["zip"], $sp);
+                    $this->_save($response, "saveData");
                 }
                 break;
             
             case 'testing':
-                $response = $this->processList($arr["zip"], $arr["speciality"]);
-                $this->save($response, "saveData");
+                $response = $this->_processList($arr["zip"], $arr["speciality"]);
+                $this->_save($response, "saveData");
                 break;
         }
     }
