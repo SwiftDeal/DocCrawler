@@ -177,7 +177,7 @@ class Doc {
     
     protected function _save($response, $saveData = false) {
         foreach ($response as $zocdoc) {
-            $location = null;
+            $location_exits = false;
             $newDoc = false;
             
             // check if the practice listed in our database
@@ -200,13 +200,15 @@ class Doc {
                     "zocdoc_id = ?" => $zocdoc->doctor->id
                 ));
                 if ($doctor) {
-                    $location = \DocSearch::first(array(
-                        "doctor_id = ?" => $doctor->id
+                    $location = \DocSearch::all(array(
+                        "doctor_id = ?" => $doctor->id,
+                        "speciality_id = ?" => $doctor->speciality_id
                     ));
                     if ($location) {
-                        if ($location->latitude != $zocdoc->location->lat || $location->longitude != $zocdoc->location->lon) {
-                            $location = null;
-                            $newDoc = true;
+                        foreach ($location as $l) {
+                            if ($l->latitude == $zocdoc->location->lat && $l->longitude == $zocdoc->location->lon) {
+                                $location_exits = true;
+                            }
                         }
                     }
                 } 
@@ -224,9 +226,7 @@ class Doc {
                     $newDoc = true;
                 }
                 
-                if (!$location) {
-                    
-                    // a new location for the doctor
+                if (!$location_exits) {
                     $addr = explode(",", $zocdoc->location->address_line_2);
                     $addr[1] = trim($addr[1]);
                     $codes = explode(" ", $addr[1]);
