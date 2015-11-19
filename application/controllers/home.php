@@ -35,6 +35,5 @@ class Home extends Controller {
     		$doctor->save();
     		$view->set("success", true);
     	}
-    }
-    
+    }   
 }

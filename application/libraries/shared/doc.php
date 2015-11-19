@@ -158,15 +158,15 @@ class Doc {
      * Try to get the bio of the doctor from his profile if found then scrapes
      * the info else return empty string
      */
-    protected function _bio() {
+    protected function _bio($url) {
         // Get doctor bio from his profile
         $result = "";
-        if ($zocdoc->doctor->url) {
-            $doc = $this->_executeRequest('bio', 'http://zocdoc.com'. $zocdoc->doctor->url, true);
+        if ($url) {
+            $doc = $this->_executeRequest('bio', 'https://www.zocdoc.com'. $url, true);
             if ($doc) {
                 try {
                     $el = $doc->query('//*[@id="html"]/body/div[2]/div/div[2]/div/div[1]/div[2]/div/div/div')->item(0);
-                    $result = "<pre>". $el->nodeValue ."</pre>";    
+                    $result = "<pre>". $el->nodeValue ."</pre>";
                 } catch (\Exception $e) {
                     // Could not find the info
                 }
@@ -216,7 +216,7 @@ class Doc {
                     $doctor = new \Doctor(array(
                         "name" => $zocdoc->doctor->name,
                         "gender" => $zocdoc->doctor->gender,
-                        "bio" => $this->_bio(),
+                        "bio" => $this->_bio($zocdoc->doctor->url),
                         "suffix" => $zocdoc->doctor->suffix,
                         "speciality_id" => $zocdoc->doctor->specialty->id,
                         "zocdoc_id" => $zocdoc->doctor->id,
@@ -230,17 +230,23 @@ class Doc {
                     $addr = explode(",", $zocdoc->location->address_line_2);
                     $addr[1] = trim($addr[1]);
                     $codes = explode(" ", $addr[1]);
-                    $location = new \DocSearch(array(
-                        "doctor_id" => $doctor->id,
-                        "speciality_id" => $doctor->speciality_id,
-                        "address" => $zocdoc->location->address_line_1,
-                        "city" => $addr[0],
-                        "state_code" => $codes[0],
-                        "zip_code" => (int) $codes[1],
-                        "latitude" => $zocdoc->location->lat,
-                        "longitude" => $zocdoc->location->lon
-                    ));
-                    $location->save();
+
+                    try {
+                        $location = new \DocSearch(array(
+                            "doctor_id" => $doctor->id,
+                            "speciality_id" => $doctor->speciality_id,
+                            "address" => $zocdoc->location->address_line_1,
+                            "city" => $addr[0],
+                            "state_code" => $codes[0],
+                            "zip_code" => (int) $codes[1],
+                            "latitude" => $zocdoc->location->lat,
+                            "longitude" => $zocdoc->location->lon
+                        ));
+                        $location->save();    
+                    } catch (\Exception $e) {
+                        // possibly failed because adding a duplicate record
+                    }
+                    
                 }
             }
 
