@@ -241,8 +241,8 @@ class Bot {
 
 	private function checkLimit() {
 		$count = self::$count++;
-		if ($count > 300) {
-			sleep(10);
+		if ($count > 100) {
+			sleep(5);
 			self::$count = 0;
 		}
 		usleep((self::$conf_delay_between_fetches)*2000); // Being polite and sleeping
