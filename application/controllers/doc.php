@@ -8,6 +8,7 @@
 use Framework\RequestMethods as RequestMethods;
 use Framework\Registry as Registry;
 use Framework\ArrayMethods as ArrayMethods;
+use \Curl\Curl;
 
 class Doc extends Admin {
     /**
@@ -117,6 +118,39 @@ class Doc extends Admin {
         $view->set("doctors", $doctors);
         $view->set("total", $count);
     }
+
+    public function google() {
+        $this->noview();
+        $input = RequestMethods::get("input");
+
+        $curl = new Curl();
+        $curl->get('https://maps.googleapis.com/maps/api/place/textsearch/json', array(
+            'key' => 'AIzaSyBNnY6jX7uAmLsGFsYMw5GjLtvWT98fyeA',
+            'input' => $input
+        ));
+        $curl->close();
+
+        $places = $curl->response;
+        $results = $places->results;
+        echo json_encode($results[0]);
+    }
+
+    public function googlePlace() {
+        $this->noview();
+        $placeid = RequestMethods::get("placeid", "ChIJN1t_tDeuEmsRUsoyG83frY4");
+
+        $curl = new Curl();
+        $curl->get('https://maps.googleapis.com/maps/api/place/details/json', array(
+            'key' => 'AIzaSyBNnY6jX7uAmLsGFsYMw5GjLtvWT98fyeA',
+            'placeid' => $placeid
+        ));
+        $curl->close();
+
+        $place = $curl->response;
+        $result = $place->result;
+        //echo "<pre>", print_r($result), "</pre>";
+        echo json_encode($result);
+    }
     
     public function fetch() {
         $this->JSONview();
@@ -124,11 +158,11 @@ class Doc extends Admin {
         $speciality_id = RequestMethods::get("speciality_id");
         $location = RequestMethods::get("location", "New York");
         $zip = RequestMethods::get("zip");
-        $limit = RequestMethods::get("limit", 50);
+        $limit = RequestMethods::get("limit", 10);
         $page = RequestMethods::get("page", 1);
 
         if (is_numeric($zip)) {
-            $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "zip_code = ?" => $zip), array("*"), "created", "desc", $limit, $page);
+            $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "zip_code = ?" => $zip), array("*"), "created", "asc", $limit, $page);
             $count = DocSearch::count(array("speciality_id = ?" => $speciality_id, "zip_code = ?" => $zip));
         } else {
             $search = DocSearch::all(array("speciality_id = ?" => $speciality_id, "city = ?" => $location), array("*"), "created", "desc", $limit, $page);
@@ -148,6 +182,7 @@ class Doc extends Admin {
                     "name" => $doctor->name,
                     "gender" => $doctor->gender,
                     "suffix" => $doctor->suffix,
+                    "bio" => strip_tags($doctor->bio),
                     "practice" => ($practice) ? $practice->name : ""
                 ),
                 "location" => array(

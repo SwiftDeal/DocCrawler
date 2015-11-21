@@ -38,7 +38,7 @@
                             lng: Number(val.location.long),
                             content: val.doctor.name + ', ' + val.doctor.suffix + '<br>' + val.doctor.practice + '<br>' + val.location.address + ', ' + val.location.city
                         });
-                        $('#docSearch').append('<div class="blog-box"><div class="blog-text"><h4>' + val.doctor.name + '</h4><div class="post-meta">' + val.doctor.suffix + ', ' + val.doctor.practice + '<div class="clear"></div></div><div class="post-text">' + val.location.address + ', ' + val.location.city + '</div></div></div>');
+                        $('#docSearch').append('<div class="blog-box"><div class="blog-text"><h4>' + val.doctor.name + '</h4><button class="btn-sm contact" data-input="' + val.doctor.name + ', ' + val.doctor.suffix + ', ' + val.doctor.practice + ',' + val.location.address + ', ' + val.location.city +'">Contact Number</button><div class="post-meta">' + val.doctor.suffix + ', ' + val.doctor.practice + '<div class="clear"></div></div><div class="post-text">' + val.location.address + ', ' + val.location.city + '</div><div class="post-text">' + val.doctor.bio + '</div></div></div>');
                     });
                 } else {
                     $('#docSearch').html('<br><br><p>No Results Found, Please try some other location, <a href="/">go back</a></p>');
@@ -49,9 +49,41 @@
                 alert("Something went wrong, Please try again later");
             })
             .always(function(d) {
-                console.log(d.doctors.length);
+                //console.log(d.doctors);
             });
 
+    });
+
+    $(document).on('click', '.contact', function () {
+        var self = $(this);
+        self.html('Fetching...');
+        $.ajax({
+            url: '/doc/google',
+            data: {input: self.data('input')},
+        })
+        .done(function(data) {
+            var d = $.parseJSON(data);
+            console.log(data);
+            if(d) {
+                if(d.hasOwnProperty("place_id")) {
+                    $.ajax({
+                        url: '/doc/googlePlace',
+                        data: {placeid: d.place_id},
+                    })
+                    .done(function(p) {
+                        var place = $.parseJSON(p);
+                        self.html(place.international_phone_number);
+                        alert(place.international_phone_number);
+                    });
+                } else{
+                    self.html('No Number Found');
+                }
+            } else{
+                self.html('No Number Found');
+            }
+            
+        });
+        
     });
 
 }(window, jQuery));
