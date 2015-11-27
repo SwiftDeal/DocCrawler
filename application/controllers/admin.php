@@ -21,13 +21,13 @@ class Admin extends Auth {
         $doctors = Doctor::count();
         $practices = Practice::count();
         $locations = DocSearch::count();
-        $specialities = Speciality::count();
+        $insurancesearch = InsuranceSearch::count();
 
         $view->set("now", $now);
         $view->set("doctors", $doctors);
         $view->set("practices", $practices);
         $view->set("locations", $locations);
-        $view->set("specialities", $specialities);
+        $view->set("insurancesearch", $insurancesearch);
     }
 
     /**
