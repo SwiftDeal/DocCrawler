@@ -26,7 +26,8 @@ class Doc extends Admin {
                 "name" => RequestMethods::post("name") ,
                 "suffix" => RequestMethods::post("suffix") ,
                 "speciality_id" => RequestMethods::post("speciality_id") ,
-                "gender" => RequestMethods::post("gender") ,
+                "gender" => RequestMethods::post("gender"),
+                "bio" => RequestMethods::post("bio"),
                 "zocdoc_id" => RequestMethods::post("zocdoc_id", "") ,
                 "practice_id" => RequestMethods::post("practice_id", "")
             ));
@@ -46,6 +47,7 @@ class Doc extends Admin {
             $doctor->name = RequestMethods::post("name");
             $doctor->suffix = RequestMethods::post("suffix");
             $doctor->speciality_id = RequestMethods::post("speciality_id");
+            $doctor->bio = RequestMethods::post("bio");
             $doctor->gender = RequestMethods::post("gender");
             $doctor->save();
 
@@ -67,14 +69,16 @@ class Doc extends Admin {
         
         $limit = RequestMethods::get("limit", 10);
         $page = RequestMethods::get("page", 1);
+        $name = RequestMethods::get("name", "");
         
-        $doctors = Doctor::all(array() , array("name","suffix", "id") , "created", "desc", $limit, $page);
+        $doctors = Doctor::all(array("name LIKE ?" => "%{$name}%") , array("name","suffix", "id") , "created", "desc", $limit, $page);
         $count = Doctor::count();
         
         $view->set("count", $count);
         $view->set("doctors", $doctors);
         $view->set("page", $page);
         $view->set("limit", $limit);
+        $view->set("name", $name);
     }
     
     /**
